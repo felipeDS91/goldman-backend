@@ -5,7 +5,7 @@
   "author": "Felipe.DS <Felipe.DS@outlook.com>",
   "license": "MIT",
   "scripts": {
-    "start": "yarn dev",
+    "start": "yarn && yarn dev",
     "dev": "nodemon src/server.js",
     "queue": "nodemon src/queue.js",
     "dev:debug": "nodemon --inspect src/server.js"
