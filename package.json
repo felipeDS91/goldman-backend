@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "yarn && yarn dev",
-    "dev": "nodemon src/server.js",
+    "dev": "node_modules/nodemon src/server.js",    
     "queue": "nodemon src/queue.js",
     "dev:debug": "nodemon --inspect src/server.js"
   },
