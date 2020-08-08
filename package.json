@@ -1,0 +1,41 @@
+{
+  "name": "goldman",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Felipe.DS <Felipe.DS@outlook.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "concurrently \"yarn queue\" \"yarn dev\"",
+    "dev": "nodemon src/server.js",
+    "queue": "nodemon src/queue.js",
+    "dev:debug": "nodemon --inspect src/server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "bee-queue": "^1.2.2",
+    "cors": "^2.8.5",
+    "date-fns": "^2.6.0",
+    "dot-prop": "5.1.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.1.0",
+    "nodemailer": "^6.3.1",
+    "nodemailer-express-handlebars": "^3.1.0",
+    "sequelize": "^5.21.1",
+    "yup": "^0.27.0"
+  },
+  "devDependencies": {
+    "concurrently": "^5.0.2",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "nodemon": "^1.19.4",
+    "prettier": "^1.18.2",
+    "sequelize-cli": "^5.5.1",
+    "sucrase": "^3.10.1"
+  }
+}
