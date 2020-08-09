@@ -5,8 +5,8 @@
   "author": "Felipe.DS <Felipe.DS@outlook.com>",
   "license": "MIT",
   "scripts": {
-    "start": "yarn && yarn dev",
-    "dev": "nodemon src/server.js",
+    "start": "node dist/server.js",
+    "build": "sucrase ./src -d ./dist --transforms imports",
     "queue": "nodemon src/queue.js",
     "dev:debug": "nodemon --inspect src/server.js"
   },
