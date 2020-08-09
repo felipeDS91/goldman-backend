@@ -5,6 +5,7 @@ import Customer from '../models/Customer';
 import OrderDetail from '../models/OrderDetail';
 import OrderPayment from '../models/OrderPayment';
 import OrderDetailStone from '../models/OrderDetailStone';
+import Status from '../models/Status';
 
 const RES_PER_PAGE = 10;
 
@@ -213,6 +214,11 @@ class OrderController {
           model: Customer,
           as: 'customer',
           attributes: ['name'],
+        },
+        {
+          model: Status,
+          as: 'status',
+          attributes: ['description'],
         },
       ],
     });
