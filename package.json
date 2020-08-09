@@ -8,8 +8,7 @@
     "start": "yarn install && yarn build && node dist/server.js",
     "build": "sucrase ./src -d ./dist --transforms imports",
     "queue": "nodemon src/queue.js",
-    "dev:debug": "nodemon --inspect src/server.js",
-    "postinstall": "yarn npm build"
+    "dev:debug": "nodemon --inspect src/server.js"    
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
