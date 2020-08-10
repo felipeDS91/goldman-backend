@@ -206,7 +206,7 @@ class OrderController {
 
     const result = await Order.findAll({
       where: q && { id: { [Op.like]: `%${q}%` } },
-      order: ['id'],
+      order: [['id', 'DESC']],
       limit: RES_PER_PAGE,
       offset: (page - 1) * RES_PER_PAGE,
       include: [
