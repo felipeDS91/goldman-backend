@@ -6,6 +6,7 @@ import OrderDetail from '../models/OrderDetail';
 import OrderPayment from '../models/OrderPayment';
 import OrderDetailStone from '../models/OrderDetailStone';
 import Status from '../models/Status';
+import User from '../models/User';
 
 const RES_PER_PAGE = 10;
 
@@ -260,6 +261,11 @@ class OrderController {
         {
           model: OrderPayment,
           as: 'order_payments',
+        },
+        {
+          model: User,
+          as: 'user',
+          attributes: ['name'],
         },
       ],
     });

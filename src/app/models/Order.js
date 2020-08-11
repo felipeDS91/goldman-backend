@@ -42,7 +42,7 @@ class Order extends Model {
     });
     this.belongsTo(models.Carrier, {
       foreignKey: 'delivery_id_carrier',
-      as: 'carrier',
+      as: 'delivery_carrier',
     });
     this.belongsTo(models.FreightType, {
       foreignKey: 'delivery_id_freight_type',

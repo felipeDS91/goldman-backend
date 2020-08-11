@@ -15,6 +15,7 @@ import ColorController from './app/controllers/ColorController';
 import CarrierController from './app/controllers/CarrierController';
 import FreightTypeController from './app/controllers/FreightTypeController';
 import CompanyController from './app/controllers/CompanyController';
+import PrintOrderController from './app/controllers/PrintOrderController';
 
 import authMiddleware from './app/middlewares/auth';
 import adminOnly from './app/middlewares/adminOnly';
@@ -57,6 +58,8 @@ routes
   .get(OrderController.show)
   .put(OrderController.update)
   .delete(OrderController.delete);
+
+routes.get('/print-order/:id', PrintOrderController.show);
 
 routes.post('/orders-details', OrderDetailController.store);
 routes

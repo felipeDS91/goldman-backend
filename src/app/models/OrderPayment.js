@@ -21,6 +21,7 @@ class OrderPayment extends Model {
     });
     this.belongsTo(models.PaymentType, {
       foreignKey: 'id_payment_type',
+      as: 'payment_type',
     });
   }
 }

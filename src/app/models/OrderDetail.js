@@ -31,9 +31,11 @@ class OrderDetail extends Model {
     });
     this.belongsTo(models.Color, {
       foreignKey: 'id_color',
+      as: 'color',
     });
     this.belongsTo(models.Finishing, {
       foreignKey: 'id_finishing',
+      as: 'finishing',
     });
     this.hasMany(models.OrderDetailStone, {
       foreignKey: 'id_order_detail',

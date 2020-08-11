@@ -21,6 +21,7 @@ class OrderDetailStone extends Model {
     });
     this.belongsTo(models.Material, {
       foreignKey: 'id_material',
+      as: 'material',
     });
   }
 }
