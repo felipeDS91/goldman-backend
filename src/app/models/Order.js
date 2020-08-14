@@ -18,6 +18,7 @@ class Order extends Model {
         delivery_address: Sequelize.STRING,
         delivery_number: Sequelize.STRING,
         delivery_complement: Sequelize.STRING,
+        paid: Sequelize.BOOLEAN,
       },
       {
         sequelize,

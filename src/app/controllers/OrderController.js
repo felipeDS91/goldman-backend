@@ -293,7 +293,11 @@ class OrderController {
 
     const { order_details, order_payments, ...order } = validatedData;
 
-    const result = await Order.create(order);
+    const paid =
+      order_payments.reduce((acum, elem) => acum + (elem.value || 0), 0) >=
+      order.total;
+
+    const result = await Order.create({ ...order, paid });
 
     await Promise.all(
       order_details.map(async detail => {
@@ -339,9 +343,16 @@ class OrderController {
 
     const { order_details, order_payments, ...order } = validatedData;
 
-    const result = await Order.update(order, {
-      where: { id: req.params.id },
-    });
+    const paid =
+      order_payments.reduce((acum, elem) => acum + (elem.value || 0), 0) >=
+      order.total;
+
+    const result = await Order.update(
+      { ...order, paid },
+      {
+        where: { id: req.params.id },
+      }
+    );
 
     /**
      * First, erase all data children from details and payments

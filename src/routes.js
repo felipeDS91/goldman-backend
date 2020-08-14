@@ -26,8 +26,6 @@ routes.post('/sessions', SessionController.store);
 
 routes.post('/refresh-token', SessionController.refresh);
 
-// routes.post('/sessions-student', SessionStudentController.store);
-
 routes.use(authMiddleware);
 
 routes.put('/change-password', ChangePasswordController.update);
