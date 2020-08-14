@@ -30,7 +30,7 @@ routes.post('/refresh-token', SessionController.refresh);
 
 routes.use(authMiddleware);
 
-routes.post('/change-password', ChangePasswordController.update);
+routes.put('/change-password', ChangePasswordController.update);
 
 routes.post('/company', CompanyController.update);
 routes.get('/company', CompanyController.show);
