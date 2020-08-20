@@ -15,7 +15,12 @@ class App {
   }
 
   middlewares() {
-    this.server.use(cors());
+    this.server.use(
+      cors({
+        origin: process.env.URL_FRONTEND,
+        optionsSuccessStatus: 200,
+      })
+    );
     this.server.use(express.json());
   }
 

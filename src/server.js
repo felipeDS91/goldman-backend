@@ -1,4 +1,7 @@
-require('dotenv/config');
 import app from './app';
 
-app.listen(process.env.APP_PORT);
+require('dotenv/config');
+
+app.listen(process.env.APP_PORT, () => {
+  console.log('🐱‍ Back-end started!');
+});
