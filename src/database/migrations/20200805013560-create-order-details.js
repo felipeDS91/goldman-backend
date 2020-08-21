@@ -65,7 +65,7 @@ module.exports = {
         onDelete: 'CASCADE',
       },
       observation: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
       },
       created_at: {
         type: Sequelize.DATE,

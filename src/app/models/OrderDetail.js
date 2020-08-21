@@ -15,7 +15,7 @@ class OrderDetail extends Model {
         ring_size_2: Sequelize.FLOAT,
         recording_1: Sequelize.STRING,
         recording_2: Sequelize.STRING,
-        observation: Sequelize.STRING,
+        observation: Sequelize.TEXT,
       },
       {
         sequelize,
