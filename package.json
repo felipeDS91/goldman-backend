@@ -8,7 +8,10 @@
     "start": "yarn install && yarn build && yarn sequelize db:migrate && node dist/server.js",
     "build": "sucrase ./src -d ./dist --transforms imports",
     "queue": "nodemon src/queue.js",
-    "dev:debug": "nodemon --inspect src/server.js"
+    "dev:debug": "nodemon --inspect src/server.js",
+    "pretest": "set NODE_ENV=test&&sequelize db:migrate",
+    "test": "set NODE_ENV=test&&jest",
+    "posttest": "set NODE_ENV=test&&sequelize db:migrate:undo:all"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -24,18 +27,24 @@
     "nodemailer": "^6.3.1",
     "nodemailer-express-handlebars": "^3.1.0",
     "sequelize": "^5.21.1",
-    "yup": "^0.27.0",
+    "sequelize-cli": "^5.5.1",
     "sucrase": "^3.10.1",
-    "sequelize-cli": "^5.5.1"
+    "youch": "^2.0.10",
+    "yup": "^0.27.0"
   },
   "devDependencies": {
+    "@sucrase/jest-plugin": "^2.0.0",
+    "@types/jest": "^26.0.10",
     "concurrently": "^5.0.2",
     "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.1",
+    "jest": "^26.4.2",
     "nodemon": "^1.19.4",
-    "prettier": "^1.18.2"    
+    "prettier": "^1.18.2",
+    "sqlite3": "^5.0.0",
+    "supertest": "^4.0.2"
   }
 }

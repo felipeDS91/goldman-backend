@@ -5,7 +5,6 @@ import Customer from '../app/models/Customer';
 import Order from '../app/models/Order';
 import Status from '../app/models/Status';
 import PaymentType from '../app/models/PaymentType';
-import OrderStatus from '../app/models/OrderStatus';
 import OrderPayment from '../app/models/OrderPayment';
 import OrderDetail from '../app/models/OrderDetail';
 import Finishing from '../app/models/Finishing';
@@ -24,7 +23,6 @@ const models = [
   Order,
   Status,
   PaymentType,
-  OrderStatus,
   OrderPayment,
   OrderDetail,
   OrderDetailStone,
