@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { TokenExpiredError } from 'jsonwebtoken';
 import { promisify } from 'util';
 import * as Yup from 'yup';
 
@@ -17,7 +17,7 @@ class SessionController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation fails'});
+      return res.status(400).json({ error: 'Validation fails' });
     }
 
     const { email, password } = req.body;
@@ -59,7 +59,24 @@ class SessionController {
   }
 
   async refresh(req, res) {
+    // verifies if have a overdue token
+    const authHeader = req.headers.authorization;    
+    if (!authHeader) 
+      return res.status(401).json({ error: 'Token not provided' });
 
+    const [, overdueToken] = authHeader.split(' ');
+
+    try {
+      await promisify(jwt.verify)(
+        overdueToken,
+        authConfig.secret
+      );
+    } catch (err){
+      if (!(err instanceof TokenExpiredError))
+        return res.status(401).send({ error: 'Invalid access' });
+    }
+    
+    // generates new token
     const { refreshToken } = req.body;
 
     try {
@@ -80,10 +97,8 @@ class SessionController {
         return res.status(200).json({ token: newToken });
       }
     } catch {
-      return res.status(401).send({ error: 'Invalid access' });  
+      return res.status(401).send({ error: 'Invalid access' });
     }
-
-    return res.status(401).send({ error: 'Invalid access' });
   }
 }
 

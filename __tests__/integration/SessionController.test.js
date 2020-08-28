@@ -1,14 +1,14 @@
 import request from 'supertest';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import MockDate from 'mockdate';
 import app from '../../src/app';
 import truncateSequelize from '../utils/database';
 import User from '../../src/app/models/User';
-import authConfig from '../../src/config/auth';
 
 describe('SessionController.js', () => {
   beforeEach(async () => {
     await truncateSequelize();
+    MockDate.reset();
   });
 
   afterAll(async () => {
@@ -94,6 +94,25 @@ describe('SessionController.js', () => {
     expect(response.body).toHaveProperty('user');
   });
 
+  it('should not be able to request new token without token', async () => {
+    const response = await request(app)
+      .post('/refresh-token')
+      .send({});
+
+    expect(response.status).toBe(401);
+    expect(response.body.error).toBe('Token not provided');
+  });
+
+  it('should not be able to request new token with invalid token', async () => {
+    const response = await request(app)
+      .post('/refresh-token')
+      .set('Authorization', `Bearer 1111111111`)
+      .send({});
+
+    expect(response.status).toBe(401);
+    expect(response.body.error).toBe('Invalid access');
+  });
+
   it('should not be able to request new token without refresh token', async () => {
     User.create({
       name: 'User',
@@ -126,6 +145,8 @@ describe('SessionController.js', () => {
       password_hash: await bcrypt.hash('123456', 8),
     });
 
+    MockDate.set('2020-01-01');
+
     const logonResponse = await request(app)
       .post('/sessions')
       .send({
@@ -133,18 +154,14 @@ describe('SessionController.js', () => {
         password: '123456',
       });
 
-    const { token } = logonResponse.body;
+    const { token, refreshToken } = logonResponse.body;
 
-    const overdueToken = jwt.sign({ id: 1 }, authConfig.secret, {
-      expiresIn: 1,
-    });
+    MockDate.set('2020-02-02');
 
     const response = await request(app)
       .post('/refresh-token')
       .set('Authorization', `Bearer ${token}`)
-      .send({
-        refreshToken: overdueToken,
-      });
+      .send({ refreshToken });
 
     expect(response.status).toBe(401);
     expect(response.body.error).toBe('Invalid access');
