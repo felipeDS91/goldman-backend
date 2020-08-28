@@ -24,9 +24,9 @@ const routes = new Router();
 
 routes.post('/sessions', SessionController.store);
 
-routes.post('/refresh-token', SessionController.refresh);
-
 routes.use(authMiddleware);
+
+routes.post('/refresh-token', SessionController.refresh);
 
 routes.put('/change-password', ChangePasswordController.update);
 

@@ -59,11 +59,6 @@ class SessionController {
   }
 
   async refresh(req, res) {
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader) {
-      return res.status(401).json({ error: 'Token not provided' });
-    }
 
     const { refreshToken } = req.body;
 
