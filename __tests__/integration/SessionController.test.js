@@ -1,9 +1,8 @@
 import request from 'supertest';
-import bcrypt from 'bcryptjs';
 import MockDate from 'mockdate';
 import app from '../../src/app';
 import truncateSequelize from '../utils/database';
-import User from '../../src/app/models/User';
+import factory from '../utils/factories';
 
 describe('SessionController.js', () => {
   beforeEach(async () => {
@@ -47,11 +46,13 @@ describe('SessionController.js', () => {
   });
 
   it('should not be able to login with wrong username and password', async () => {
+    const user = await factory.attrs('User');
+
     const response = await request(app)
       .post('/sessions')
       .send({
-        email: 'admin@gmail.com',
-        password: '123456',
+        email: user.email,
+        password: user.password,
       });
 
     expect(response.status).toBe(401);
@@ -59,17 +60,14 @@ describe('SessionController.js', () => {
   });
 
   it('should not be able login with wrong password', async () => {
-    User.create({
-      name: 'User',
-      email: 'user@test.com',
-      password_hash: await bcrypt.hash('123456', 8),
-    });
+    const user = await factory.attrs('User', { password: '123546' });
+    factory.create('User', user);
 
     const response = await request(app)
       .post('/sessions')
       .send({
-        email: 'user@test.com',
-        password: '444',
+        ...user,
+        password: '654321',
       });
 
     expect(response.status).toBe(401);
@@ -77,17 +75,14 @@ describe('SessionController.js', () => {
   });
 
   it('should return user and token using a correct user and password', async () => {
-    User.create({
-      name: 'User',
-      email: 'user@test.com',
-      password_hash: await bcrypt.hash('123456', 8),
-    });
+    const user = await factory.attrs('User');
+    factory.create('User', user);
 
     const response = await request(app)
       .post('/sessions')
       .send({
-        email: 'user@test.com',
-        password: '123456',
+        email: user.email,
+        password: user.password,
       });
 
     expect(response.body).toHaveProperty('token');
@@ -114,17 +109,14 @@ describe('SessionController.js', () => {
   });
 
   it('should not be able to request new token without refresh token', async () => {
-    User.create({
-      name: 'User',
-      email: 'user@test.com',
-      password_hash: await bcrypt.hash('123456', 8),
-    });
+    const user = await factory.attrs('User');
+    factory.create('User', user);
 
     const logonResponse = await request(app)
       .post('/sessions')
       .send({
-        email: 'user@test.com',
-        password: '123456',
+        email: user.email,
+        password: user.password,
       });
 
     const { token } = logonResponse.body;
@@ -139,19 +131,16 @@ describe('SessionController.js', () => {
   });
 
   it('should not be able return new token when refresh token is overdue', async () => {
-    User.create({
-      name: 'User',
-      email: 'user@test.com',
-      password_hash: await bcrypt.hash('123456', 8),
-    });
+    const user = await factory.attrs('User');
+    factory.create('User', user);
 
     MockDate.set('2020-01-01');
 
     const logonResponse = await request(app)
       .post('/sessions')
       .send({
-        email: 'user@test.com',
-        password: '123456',
+        email: user.email,
+        password: user.password,
       });
 
     const { token, refreshToken } = logonResponse.body;
@@ -168,17 +157,14 @@ describe('SessionController.js', () => {
   });
 
   it('should return new token', async () => {
-    User.create({
-      name: 'User',
-      email: 'user@test.com',
-      password_hash: await bcrypt.hash('123456', 8),
-    });
+    const user = await factory.attrs('User');
+    factory.create('User', user);
 
     const logonResponse = await request(app)
       .post('/sessions')
       .send({
-        email: 'user@test.com',
-        password: '123456',
+        email: user.email,
+        password: user.password,
       });
 
     const { token, refreshToken } = logonResponse.body;
