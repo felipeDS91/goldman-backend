@@ -7,6 +7,7 @@ factory.define('User', User, {
   name: faker.name.findName(),
   email: faker.internet.email(),
   password: faker.internet.password(),
+  profile_admin: false,
 });
 
 export default factory;

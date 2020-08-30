@@ -32,11 +32,12 @@ class ChangePasswordController {
       });
     }
 
-    const { id, name } = await user.update(req.body);
+    const { id, name, password } = await user.update(req.body);
 
     return res.json({
       id,
       name,
+      password,
     });
   }
 }

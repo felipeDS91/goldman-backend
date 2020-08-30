@@ -60,8 +60,9 @@ describe('SessionController.js', () => {
   });
 
   it('should not be able login with wrong password', async () => {
-    const user = await factory.attrs('User', { password: '123546' });
-    factory.create('User', user);
+    const { dataValues: user } = await factory.create('User', {
+      password: '123546',
+    });
 
     const response = await request(app)
       .post('/sessions')
@@ -75,8 +76,7 @@ describe('SessionController.js', () => {
   });
 
   it('should return user and token using a correct user and password', async () => {
-    const user = await factory.attrs('User');
-    factory.create('User', user);
+    const { dataValues: user } = await factory.create('User');
 
     const response = await request(app)
       .post('/sessions')
@@ -109,8 +109,7 @@ describe('SessionController.js', () => {
   });
 
   it('should not be able to request new token without refresh token', async () => {
-    const user = await factory.attrs('User');
-    factory.create('User', user);
+    const { dataValues: user } = await factory.create('User');
 
     const logonResponse = await request(app)
       .post('/sessions')
@@ -131,8 +130,7 @@ describe('SessionController.js', () => {
   });
 
   it('should not be able return new token when refresh token is overdue', async () => {
-    const user = await factory.attrs('User');
-    factory.create('User', user);
+    const { dataValues: user } = await factory.create('User');
 
     MockDate.set('2020-01-01');
 
@@ -157,8 +155,7 @@ describe('SessionController.js', () => {
   });
 
   it('should return new token', async () => {
-    const user = await factory.attrs('User');
-    factory.create('User', user);
+    const { dataValues: user } = await factory.create('User');
 
     const logonResponse = await request(app)
       .post('/sessions')
