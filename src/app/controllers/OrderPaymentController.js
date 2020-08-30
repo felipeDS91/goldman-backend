@@ -8,9 +8,7 @@ class OrderPaymentController {
     });
 
     if (!result)
-      return res
-        .status(404)
-        .json({ error: { message: 'Registro não localizado.' } });
+      return res.status(404).json({ error: 'Registro não localizado.' });
 
     return res.json(result);
   }
@@ -68,13 +66,9 @@ class OrderPaymentController {
     });
 
     if (result === 0)
-      return res
-        .status(404)
-        .json({ error: { message: 'Registro não localizado.' } });
+      return res.status(404).json({ error: 'Registro não localizado.' });
 
-    return res.status(200).send({
-      message: `Registro ${req.params.id} deletado com sucesso`,
-    });
+    return res.status(200).send();
   }
 }
 

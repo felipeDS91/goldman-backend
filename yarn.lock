@@ -2254,6 +2254,11 @@ factory-girl@^5.0.4:
     babel-runtime "^6.11.6"
     chance "^1.0.4"
 
+faker-br@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/faker-br/-/faker-br-0.3.0.tgz#b6d2bef6197012f118110f7e3d2a8752a7ec0931"
+  integrity sha512-YSDsfsZ2ZzjkzenCcFPmeLwMctQJHyBOiYCieWzgYwpWTRTlpN5C7ZyY/kiHy04X6xeyBv+ejwbuFjxP+i7gCA==
+
 faker@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/faker/-/faker-5.1.0.tgz#e10fa1dec4502551aee0eb771617a7e7b94692e8"

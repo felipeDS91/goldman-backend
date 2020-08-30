@@ -9,7 +9,6 @@ export function isValidCPF(number) {
 
   number = unformat(number);
 
-  console.log(number);
   for (i = 1; i <= 9; i++)
     sum += parseInt(number.substring(i - 1, i)) * (11 - i);
   rest = (sum * 10) % 11;

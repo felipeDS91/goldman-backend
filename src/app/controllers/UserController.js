@@ -36,9 +36,7 @@ class UserController {
     });
 
     if (!result)
-      return res
-        .status(404)
-        .json({ error: { message: 'Registro não localizado.' } });
+      return res.status(404).json({ error: 'Registro não localizado.' });
 
     return res.json(result);
   }
@@ -89,10 +87,8 @@ class UserController {
 
   async update(req, res) {
     const schema = Yup.object().shape({
-      name: Yup.string().required('Informe o nome.'),
-      email: Yup.string()
-        .required('Informe o email.')
-        .email('Email inválido.'),
+      name: Yup.string(),
+      email: Yup.string().email('Email inválido.'),
       password: Yup.string()
         .transform(v => (v === '' ? null : v))
         .nullable()
@@ -149,13 +145,9 @@ class UserController {
     });
 
     if (result === 0)
-      return res
-        .status(404)
-        .json({ error: { message: 'Registro não localizado.' } });
+      return res.status(404).json({ error: 'Registro não localizado.' });
 
-    return res.status(200).send({
-      message: `Registro ${req.params.id} deletado com sucesso`,
-    });
+    return res.status(200).send();
   }
 }
 

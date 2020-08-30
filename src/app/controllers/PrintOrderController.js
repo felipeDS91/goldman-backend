@@ -93,9 +93,7 @@ class PrintOrderController {
     });
 
     if (!result)
-      return res
-        .status(404)
-        .json({ error: { message: 'Registro não localizado.' } });
+      return res.status(404).json({ error: 'Registro não localizado.' });
 
     return res.json(result);
   }

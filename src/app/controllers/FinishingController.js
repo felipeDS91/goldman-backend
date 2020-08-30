@@ -9,7 +9,7 @@ class FinishingController {
     const { page = 1, q } = req.query;
 
     const result = await Finishing.findAll({
-      where: q && { descricao: { [Op.like]: `%${q}%` } },
+      where: q && { description: { [Op.like]: `%${q}%` } },
       order: ['description'],
       limit: RES_PER_PAGE,
       offset: (page - 1) * RES_PER_PAGE,
@@ -17,7 +17,7 @@ class FinishingController {
 
     // Count how many rows were found
     const resultCount = await Finishing.count({
-      where: q && { descricao: { [Op.like]: `%${q}%` } },
+      where: q && { description: { [Op.like]: `%${q}%` } },
     });
     const totalPages = Math.ceil(resultCount / RES_PER_PAGE);
 
@@ -36,9 +36,7 @@ class FinishingController {
     });
 
     if (!result)
-      return res
-        .status(404)
-        .json({ error: { message: 'Registro não localizado.' } });
+      return res.status(404).json({ error: 'Registro não localizado.' });
 
     return res.json(result);
   }
@@ -89,13 +87,9 @@ class FinishingController {
     });
 
     if (result === 0)
-      return res
-        .status(404)
-        .json({ error: { message: 'Registro não localizado.' } });
+      return res.status(404).json({ error: 'Registro não localizado.' });
 
-    return res.status(200).send({
-      message: `Registro ${req.params.id} deletado com sucesso`,
-    });
+    return res.status(200).send();
   }
 }
 

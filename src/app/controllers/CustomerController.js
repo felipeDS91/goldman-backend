@@ -37,9 +37,7 @@ class CustomerController {
     });
 
     if (!result)
-      return res
-        .status(404)
-        .json({ error: { message: 'Registro não localizado.' } });
+      return res.status(404).json({ error: 'Registro não localizado.' });
 
     return res.json(result);
   }
@@ -72,15 +70,9 @@ class CustomerController {
         .json({ error: 'Validation fails', messages: err.inner });
     }
 
-    try {
-      const result = await Customer.create(req.body);
-      return res.json(result);
-    } catch (err) {
-      return res.status(400).json({
-        error: 'Validation fails',
-        messages: [{ message: err.errors[0].message }],
-      });
-    }
+    const result = await Customer.create(req.body);
+
+    return res.json(result);
   }
 
   async update(req, res) {
@@ -123,13 +115,9 @@ class CustomerController {
     });
 
     if (result === 0)
-      return res
-        .status(404)
-        .json({ error: { message: 'Registro não localizado.' } });
+      return res.status(404).json({ error: 'Registro não localizado.' });
 
-    return res.status(200).send({
-      message: `Registro ${req.params.id} deletado com sucesso`,
-    });
+    return res.status(200).send();
   }
 }
 
