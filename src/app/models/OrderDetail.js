@@ -4,7 +4,7 @@ class OrderDetail extends Model {
   static init(sequelize) {
     super.init(
       {
-        item_type: Sequelize.STRING,
+        item_type: Sequelize.ENUM('anel', 'outros', 'alianca'),
         description: Sequelize.STRING,
         value: Sequelize.FLOAT,
         amount: Sequelize.FLOAT,

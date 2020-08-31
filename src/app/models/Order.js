@@ -9,7 +9,7 @@ class Order extends Model {
         delivery_date: Sequelize.DATE,
         observation: Sequelize.TEXT,
         total: Sequelize.FLOAT,
-        delivery_type: Sequelize.STRING,
+        delivery_type: Sequelize.ENUM('transportadora', 'loja', 'motoboy'),
         delivery_value: Sequelize.FLOAT,
         delivery_zip_code: Sequelize.STRING,
         delivery_state: Sequelize.STRING,

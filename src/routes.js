@@ -5,9 +5,7 @@ import CustomerController from './app/controllers/CustomerController';
 import SessionController from './app/controllers/SessionController';
 import ChangePasswordController from './app/controllers/ChangePasswordController';
 import OrderController from './app/controllers/OrderController';
-import OrderDetailController from './app/controllers/OrderDetailController';
 import PaymentTypeController from './app/controllers/PaymentTypeController';
-import OrderPaymentController from './app/controllers/OrderPaymentController';
 import StatusController from './app/controllers/StatusController';
 import FinishingController from './app/controllers/FinishingController';
 import MaterialController from './app/controllers/MaterialController';
@@ -58,13 +56,6 @@ routes
   .delete(OrderController.delete);
 
 routes.get('/print-order/:id', PrintOrderController.show);
-
-routes.post('/orders-details', OrderDetailController.store);
-routes
-  .route('/orders-details/:id', adminOnly)
-  .get(OrderDetailController.show)
-  .put(OrderDetailController.update)
-  .delete(OrderDetailController.delete);
 
 routes.post('/payment-type', PaymentTypeController.store);
 routes.get('/payment-type', PaymentTypeController.index);
@@ -121,12 +112,5 @@ routes
   .get(FreightTypeController.show)
   .put(FreightTypeController.update)
   .delete(FreightTypeController.delete);
-
-routes.post('/order-payment', OrderPaymentController.store);
-routes
-  .route('/order-payment/:id', adminOnly)
-  .get(OrderPaymentController.show)
-  .put(OrderPaymentController.update)
-  .delete(OrderPaymentController.delete);
 
 export default routes;

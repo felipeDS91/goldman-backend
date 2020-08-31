@@ -39,7 +39,8 @@ module.exports = {
         type: Sequelize.DATE,
       },
       delivery_type: {
-        type: Sequelize.STRING,
+        type: Sequelize.ENUM('transportadora', 'loja', 'motoboy'),
+        allowNull: false,
       },
       delivery_value: {
         type: Sequelize.FLOAT,

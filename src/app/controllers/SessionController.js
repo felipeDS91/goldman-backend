@@ -60,22 +60,19 @@ class SessionController {
 
   async refresh(req, res) {
     // verifies if have a overdue token
-    const authHeader = req.headers.authorization;    
-    if (!authHeader) 
+    const authHeader = req.headers.authorization;
+    if (!authHeader)
       return res.status(401).json({ error: 'Token not provided' });
 
     const [, overdueToken] = authHeader.split(' ');
 
     try {
-      await promisify(jwt.verify)(
-        overdueToken,
-        authConfig.secret
-      );
-    } catch (err){
+      await promisify(jwt.verify)(overdueToken, authConfig.secret);
+    } catch (err) {
       if (!(err instanceof TokenExpiredError))
         return res.status(401).send({ error: 'Invalid access' });
     }
-    
+
     // generates new token
     const { refreshToken } = req.body;
 
@@ -96,7 +93,7 @@ class SessionController {
 
         return res.status(200).json({ token: newToken });
       }
-    } catch {
+    } catch (e) {
       return res.status(401).send({ error: 'Invalid access' });
     }
   }
