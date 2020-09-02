@@ -94,111 +94,123 @@ const schema = Yup.object().shape({
         : field
   ),
 
-  order_details: Yup.array().of(
-    Yup.object().shape({
-      item_type: Yup.string().required('Informe o tipo de jóia.'),
-      value: Yup.number()
-        .min(1, 'Valor inválido.')
-        .required('Informe o valor.'),
-      observation: Yup.string(),
+  order_details: Yup.array()
+    .of(
+      Yup.object().shape({
+        item_type: Yup.string().required('Informe o tipo de jóia.'),
+        value: Yup.number()
+          .min(1, 'Valor inválido.')
+          .required('Informe o valor.'),
+        observation: Yup.string(),
 
-      /**
-       * Other validation
-       */
-      description: Yup.string().when('item_type', (item_type, field) =>
-        item_type === 'outros' ? field.required('Informe a descrição.') : field
-      ),
-      amount: Yup.number().when('item_type', (item_type, field) =>
-        item_type === 'outros'
-          ? field
-              .transform(value => (Number.isNaN(value) ? undefined : value))
-              .min(1, 'Quantidade inválida.')
-              .required('Informe a quantidade.')
-          : field
-      ),
+        /**
+         * Other validation
+         */
+        description: Yup.string().when('item_type', (item_type, field) =>
+          item_type === 'outros'
+            ? field.required('Informe a descrição.')
+            : field
+        ),
+        amount: Yup.number().when('item_type', (item_type, field) =>
+          item_type === 'outros'
+            ? field
+                .transform(value => (Number.isNaN(value) ? undefined : value))
+                .min(1, 'Quantidade inválida.')
+                .required('Informe a quantidade.')
+            : field
+        ),
 
-      /**
-       * Aliannce validation
-       */
-      ring_size_2: Yup.string(),
-      recording_1: Yup.string(),
-      recording_2: Yup.string(),
-      id_finishing: Yup.number()
-        .transform(value => (Number.isNaN(value) ? null : value))
-        .when('item_type', (item_type, field) =>
+        /**
+         * Aliannce validation
+         */
+        ring_size_2: Yup.string(),
+        recording_1: Yup.string(),
+        recording_2: Yup.string(),
+        id_finishing: Yup.number()
+          .transform(value => (Number.isNaN(value) ? null : value))
+          .when('item_type', (item_type, field) =>
+            item_type === 'alianca'
+              ? field.required('Informe o acabamento.')
+              : field.nullable()
+          ),
+        width: Yup.number().when('item_type', (item_type, field) =>
           item_type === 'alianca'
-            ? field.required('Informe o acabamento.')
-            : field.nullable()
+            ? field
+                .transform(value => (Number.isNaN(value) ? undefined : value))
+                .min(3, 'Largura inválida.')
+                .max(12, 'Largura inválida.')
+                .required('Informe a largura.')
+            : field
         ),
-      width: Yup.number().when('item_type', (item_type, field) =>
-        item_type === 'alianca'
-          ? field
-              .transform(value => (Number.isNaN(value) ? undefined : value))
-              .min(3, 'Largura inválida.')
-              .max(12, 'Largura inválida.')
-              .required('Informe a largura.')
-          : field
-      ),
-      weight: Yup.number().when('item_type', (item_type, field) =>
-        item_type === 'alianca'
-          ? field
-              .transform(value => (Number.isNaN(value) ? undefined : value))
-              .required('Informe o peso.')
-          : field
-      ),
+        weight: Yup.number().when('item_type', (item_type, field) =>
+          item_type === 'alianca'
+            ? field
+                .transform(value => (Number.isNaN(value) ? undefined : value))
+                .required('Informe o peso.')
+            : field
+        ),
 
-      /**
-       * Rings and Alliances validation
-       */
-      ring_size_1: Yup.number().when('item_type', (item_type, field) =>
-        item_type === 'anel' || item_type === 'alianca'
-          ? field
-              .transform(value => (Number.isNaN(value) ? undefined : value))
-              .min(8, 'Tamanho inválido.')
-              .max(35, 'Tamanho inválido.')
-              .required('Informe o tamanho.')
-          : field
-      ),
-      id_color: Yup.number()
-        .transform(value => (Number.isNaN(value) ? null : value))
-        .when('item_type', (item_type, field) =>
+        /**
+         * Rings and Alliances validation
+         */
+        ring_size_1: Yup.number().when('item_type', (item_type, field) =>
           item_type === 'anel' || item_type === 'alianca'
-            ? field.required('Informe a cor.')
-            : field.nullable()
+            ? field
+                .transform(value => (Number.isNaN(value) ? undefined : value))
+                .min(8, 'Tamanho inválido.')
+                .max(35, 'Tamanho inválido.')
+                .required('Informe o tamanho.')
+            : field
         ),
-      order_detail_stones: Yup.array().when('item_type', (item_type, field) =>
-        item_type === 'anel' || item_type === 'alianca'
-          ? field.of(
-              Yup.object().shape({
-                amount: Yup.number()
-                  .transform(value => (Number.isNaN(value) ? undefined : value))
-                  .min(1, 'Quantidade inválida.')
-                  .required('Informe a quantidade.'),
-                points: Yup.number()
-                  .transform(value => (Number.isNaN(value) ? undefined : value))
-                  .min(1, 'Tamanho inválido.')
-                  .required('Informe o tamanho.'),
-                id_material: Yup.number()
-                  .transform(value => (Number.isNaN(value) ? undefined : value))
-                  .required('Informe o material.'),
-              })
-            )
-          : field
-      ),
-    })
-  ),
+        id_color: Yup.number()
+          .transform(value => (Number.isNaN(value) ? null : value))
+          .when('item_type', (item_type, field) =>
+            item_type === 'anel' || item_type === 'alianca'
+              ? field.required('Informe a cor.')
+              : field.nullable()
+          ),
+        order_detail_stones: Yup.array().when('item_type', (item_type, field) =>
+          item_type === 'anel' || item_type === 'alianca'
+            ? field.of(
+                Yup.object().shape({
+                  amount: Yup.number()
+                    .transform(value =>
+                      Number.isNaN(value) ? undefined : value
+                    )
+                    .min(1, 'Quantidade inválida.')
+                    .required('Informe a quantidade.'),
+                  points: Yup.number()
+                    .transform(value =>
+                      Number.isNaN(value) ? undefined : value
+                    )
+                    .min(1, 'Tamanho inválido.')
+                    .required('Informe o tamanho.'),
+                  id_material: Yup.number()
+                    .transform(value =>
+                      Number.isNaN(value) ? undefined : value
+                    )
+                    .required('Informe o material.'),
+                })
+              )
+            : field
+        ),
+      })
+    )
+    .required('Informe ao menos 1 item.'),
 
-  order_payments: Yup.array().of(
-    Yup.object().shape({
-      id_payment_type: Yup.number()
-        .transform(value => (Number.isNaN(value) ? undefined : value))
-        .required('Informe o tipo de pagamento.'),
-      value: Yup.number()
-        .min(0.1, 'Valor inválido.')
-        .required('Informe o valor.'),
-      date: Yup.date().required('Informe a data.'),
-    })
-  ),
+  order_payments: Yup.array()
+    .of(
+      Yup.object().shape({
+        id_payment_type: Yup.number()
+          .transform(value => (Number.isNaN(value) ? undefined : value))
+          .required('Informe o tipo de pagamento.'),
+        value: Yup.number()
+          .min(0.1, 'Valor inválido.')
+          .required('Informe o valor.'),
+        date: Yup.date().required('Informe a data.'),
+      })
+    )
+    .required('Informe ao menos 1 forma de pagamento.'),
 });
 
 class OrderController {
@@ -345,7 +357,7 @@ class OrderController {
       order_payments.reduce((acum, elem) => acum + (elem.value || 0), 0) >=
       order.total;
 
-    const result = await Order.update(
+    await Order.update(
       { ...order, paid },
       {
         where: { id: req.params.id },
@@ -398,7 +410,7 @@ class OrderController {
       })
     );
 
-    return res.json(result);
+    return res.status(200).send();
   }
 
   async delete(req, res) {

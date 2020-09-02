@@ -58,44 +58,20 @@ factory.define('Order', Order, () => ({
   delivery_complement: faker.lorem.paragraph(),
   delivery_number: faker.random.number(),
   paid: faker.random.boolean,
-  // total: faker.random.float(),
-  // delivery_type: Sequelize.STRING,
-  // id_customer
-  // id_user
-  // delivery_id_carrier
-  // delivery_id_freight_type
 }));
 
 factory.define('OrderDetail', OrderDetail, () => ({
   value: faker.random.float(),
   observation: faker.lorem.paragraph(),
-  // item_type: Sequelize.ENUM('anel', 'outros', 'alianca'),
-  // description: Sequelize.STRING,
-  // amount: Sequelize.FLOAT,
-  // width: Sequelize.FLOAT,
-  // weight: Sequelize.FLOAT,
-  // anatomical: Sequelize.BOOLEAN,
-  // ring_size_1: Sequelize.FLOAT,
-  // ring_size_2: Sequelize.FLOAT,
-  // recording_1: Sequelize.STRING,
-  // recording_2: Sequelize.STRING,
-  // id_order
-  // id_color
-  // id_finishing
 }));
 
 factory.define('OrderPayment', OrderPayment, () => ({
   date: faker.date.future,
-  // value: faker.random.float(),
-  // id_order
-  // id_payment_type
 }));
 
 factory.define('OrderDetailStone', OrderDetailStone, () => ({
   amount: faker.random.float(),
   points: faker.random.float(),
-  // id_order_detail
-  // id_material
 }));
 
 factory.define('Customer', Customer, () => ({
