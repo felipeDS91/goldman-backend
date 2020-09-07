@@ -94,3 +94,6 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+# Test database 
+__tests__/database.sqlite

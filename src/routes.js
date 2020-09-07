@@ -14,6 +14,7 @@ import CarrierController from './app/controllers/CarrierController';
 import FreightTypeController from './app/controllers/FreightTypeController';
 import CompanyController from './app/controllers/CompanyController';
 import PrintOrderController from './app/controllers/PrintOrderController';
+import ChartOrderController from './app/controllers/ChartOrderController';
 
 import authMiddleware from './app/middlewares/auth';
 import adminOnly from './app/middlewares/adminOnly';
@@ -27,6 +28,8 @@ routes.post('/refresh-token', SessionController.refresh);
 routes.use(authMiddleware);
 
 routes.put('/change-password', ChangePasswordController.update);
+
+routes.get('/chart-order', ChartOrderController.index);
 
 routes.post('/company', CompanyController.update);
 routes.get('/company', CompanyController.show);
