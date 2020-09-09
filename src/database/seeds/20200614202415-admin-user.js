@@ -7,7 +7,7 @@ module.exports = {
       [
         {
           name: 'Administrador',
-          email: 'admin@unioro.com.br',
+          email: 'admin@goldman.com.br',
           password_hash: bcrypt.hashSync('123456', 8),
           profile_admin: true,
           created_at: new Date(),
