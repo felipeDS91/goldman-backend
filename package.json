@@ -12,12 +12,12 @@
     "pretest": "set NODE_ENV=test&&sequelize db:migrate",
     "test": "set NODE_ENV=test&&jest --runInBand",
     "posttest": "set NODE_ENV=test&&sequelize db:migrate:undo:all",
-    "pretest:coverage": "set NODE_ENV=test&&sequelize db:migrate",
-    "test:coverage": "set NODE_ENV=test&&jest --runInBand --coverage",
-    "posttest:coverage": "set NODE_ENV=test&&sequelize db:migrate:undo:all",
-    "pretest:coveralls": "set NODE_ENV=test&&sequelize db:migrate",
-    "test:coveralls": "set NODE_ENV=test&&jest --runInBand --coverage && coveralls < coverage/lcov.info",    
-    "posttest:coveralls": "set NODE_ENV=test&&sequelize db:migrate:undo:all"
+    "pretest:coverage": "NODE_ENV=test && sequelize db:migrate",
+    "test:coverage": "NODE_ENV=test && jest --runInBand --coverage",
+    "posttest:coverage": "NODE_ENV=test && sequelize db:migrate:undo:all",
+    "pretest:coveralls": "NODE_ENV=test && sequelize db:migrate",
+    "test:coveralls": "NODE_ENV=test && jest --runInBand --coverage && coveralls < coverage/lcov.info",    
+    "posttest:coveralls": "NODE_ENV=test && sequelize db:migrate:undo:all"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
