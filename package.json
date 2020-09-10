@@ -18,7 +18,7 @@
     "posttest:coverage": "sequelize db:migrate:undo:all",
 
     "pretest:coveralls": "sequelize db:migrate",
-    "test:coveralls": "jest --runInBand --coverage && coveralls < coverage/lcov.info",    
+    "test:coveralls": "jest --runInBand --coverage && coveralls < __tests__/coverage/lcov.info",    
     "posttest:coveralls": "sequelize db:migrate:undo:all"
   },
   "dependencies": {
