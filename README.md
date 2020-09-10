@@ -26,6 +26,10 @@
     <img alt="Repository issues" src="https://img.shields.io/github/issues/felipeDS91/goldman-backend?color=%23fbc131">
   </a>
 
+  <a href='https://coveralls.io/github/felipeDS91/goldman-backend?branch=master'>
+    <img src='https://coveralls.io/repos/github/felipeDS91/goldman-backend/badge.svg?branch=master' alt='Coverage Status' />
+  </a>
+
   <img alt="GitHub" src="https://img.shields.io/github/license/felipeDS91/goldman-backend?color=%23fbc131">
 </p>
 
