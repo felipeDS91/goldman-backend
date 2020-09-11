@@ -76,6 +76,16 @@ describe('CustomerController.js', () => {
     expect(response.body.error).toBe('Validation fails');
   });
 
+  it(`should not be able to register ${FACTORY_NAME} with wrong document`, async () => {
+    const response = await request(app)
+      .post(ROUTE)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: 'jony', cpf: '12345678978' });
+
+    expect(response.status).toBe(400);
+    expect(response.body.error).toBe('Validation fails');
+  });
+
   it(`should be able to register new ${FACTORY_NAME}`, async () => {
     const register = await factory.attrs(FACTORY_NAME);
 

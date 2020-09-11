@@ -173,4 +173,23 @@ describe('SessionController.js', () => {
 
     expect(response.body).toHaveProperty('token');
   });
+
+  it('should not be able access a route without token', async () => {
+    const response = await request(app)
+      .post('/customers')
+      .send({});
+
+    expect(response.status).toBe(401);
+    expect(response.body.error).toBe('Token not provided');
+  });
+
+  it('should not be able access a route without a valid token', async () => {
+    const response = await request(app)
+      .post('/customers')
+      .set('Authorization', `Bearer 12345`)
+      .send({});
+
+    expect(response.status).toBe(401);
+    expect(response.body.error).toBe('Token invalid');
+  });
 });
