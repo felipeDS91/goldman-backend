@@ -216,9 +216,31 @@ const schema = Yup.object().shape({
 class OrderController {
   async index(req, res) {
     const { page = 1, q } = req.query;
+    const filter = req.query.filter ? JSON.parse(req.query.filter) : {};
+
+    const filters = [];
+
+    if (q)
+      filters.push({
+        [Op.or]: [
+          { id: { [Op.eq]: q } },
+          { '$customer.name$': { [Op.like]: `%${q}%` } },
+        ],
+      });
+    if (typeof filter.paid !== 'undefined' && filter.paid !== '')
+      filters.push({ paid: filter.paid });
+
+    if (filter.status && filter.status.length > 0)
+      filters.push({ '$status.id$': { [Op.in]: filter.status } });
+
+    if (filter.initial_date)
+      filters.push({ created_at: { [Op.gt]: filter.initial_date } });
+
+    if (filter.final_date)
+      filters.push({ created_at: { [Op.lt]: filter.final_date } });
 
     const result = await Order.findAll({
-      where: q && { id: { [Op.like]: `%${q}%` } },
+      where: filters,
       order: [['id', 'DESC']],
       limit: RES_PER_PAGE,
       offset: (page - 1) * RES_PER_PAGE,
@@ -238,7 +260,19 @@ class OrderController {
 
     // Count how many rows were found
     const resultCount = await Order.count({
-      where: q && { id: { [Op.like]: `%${q}%` } },
+      where: filters,
+      include: [
+        {
+          model: Customer,
+          as: 'customer',
+          attributes: ['name'],
+        },
+        {
+          model: Status,
+          as: 'status',
+          attributes: ['description'],
+        },
+      ],
     });
     const totalPages = Math.ceil(resultCount / RES_PER_PAGE);
 
