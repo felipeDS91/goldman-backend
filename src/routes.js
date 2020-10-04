@@ -15,6 +15,7 @@ import FreightTypeController from './app/controllers/FreightTypeController';
 import CompanyController from './app/controllers/CompanyController';
 import PrintOrderController from './app/controllers/PrintOrderController';
 import ChartOrderController from './app/controllers/ChartOrderController';
+import OrderReportController from './app/controllers/OrderReportController';
 
 import authMiddleware from './app/middlewares/auth';
 import adminOnly from './app/middlewares/adminOnly';
@@ -49,6 +50,8 @@ routes
   .get(CustomerController.show)
   .put(CustomerController.update)
   .delete(CustomerController.delete);
+
+routes.get('/orders-report', OrderReportController.index);
 
 routes.post('/orders', OrderController.store);
 routes.get('/orders', OrderController.index);
