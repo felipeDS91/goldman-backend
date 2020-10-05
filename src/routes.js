@@ -13,9 +13,11 @@ import ColorController from './app/controllers/ColorController';
 import CarrierController from './app/controllers/CarrierController';
 import FreightTypeController from './app/controllers/FreightTypeController';
 import CompanyController from './app/controllers/CompanyController';
+import CitiesController from './app/controllers/CitiesController';
 import PrintOrderController from './app/controllers/PrintOrderController';
 import ChartOrderController from './app/controllers/ChartOrderController';
 import OrderReportController from './app/controllers/OrderReportController';
+import CustomerReportController from './app/controllers/CustomerReportController';
 
 import authMiddleware from './app/middlewares/auth';
 import adminOnly from './app/middlewares/adminOnly';
@@ -52,6 +54,8 @@ routes
   .delete(CustomerController.delete);
 
 routes.get('/orders-report', OrderReportController.index);
+
+routes.get('/customers-report', CustomerReportController.index);
 
 routes.post('/orders', OrderController.store);
 routes.get('/orders', OrderController.index);
@@ -118,5 +122,7 @@ routes
   .get(FreightTypeController.show)
   .put(FreightTypeController.update)
   .delete(FreightTypeController.delete);
+
+routes.get('/cities', CitiesController.index);
 
 export default routes;
