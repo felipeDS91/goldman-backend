@@ -19,6 +19,7 @@ class Company extends Model {
         zip_code: Sequelize.STRING,
         complement: Sequelize.STRING,
         number: Sequelize.STRING,
+        logo_name: Sequelize.STRING,
       },
       {
         sequelize,

@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import multer from 'multer';
+import uploadConfig from './config/upload';
 
 import UserController from './app/controllers/UserController';
 import CustomerController from './app/controllers/CustomerController';
@@ -13,6 +15,7 @@ import ColorController from './app/controllers/ColorController';
 import CarrierController from './app/controllers/CarrierController';
 import FreightTypeController from './app/controllers/FreightTypeController';
 import CompanyController from './app/controllers/CompanyController';
+import CompanyLogoController from './app/controllers/CompanyLogoController';
 import CitiesController from './app/controllers/CitiesController';
 import PrintOrderController from './app/controllers/PrintOrderController';
 import ChartOrderController from './app/controllers/ChartOrderController';
@@ -21,6 +24,8 @@ import CustomerReportController from './app/controllers/CustomerReportController
 
 import authMiddleware from './app/middlewares/auth';
 import adminOnly from './app/middlewares/adminOnly';
+
+const upload = multer(uploadConfig.multer);
 
 const routes = new Router();
 
@@ -33,9 +38,6 @@ routes.use(authMiddleware);
 routes.put('/change-password', ChangePasswordController.update);
 
 routes.get('/chart-order', ChartOrderController.index);
-
-routes.post('/company', CompanyController.update);
-routes.get('/company', CompanyController.show);
 
 routes.post('/users', UserController.store);
 routes.get('/users', UserController.index);
@@ -124,5 +126,13 @@ routes
   .delete(FreightTypeController.delete);
 
 routes.get('/cities', CitiesController.index);
+
+routes.get('/company', CompanyController.show);
+routes.post('/company', CompanyController.update);
+routes.patch(
+  '/company/logo',
+  upload.single('file'),
+  CompanyLogoController.update
+);
 
 export default routes;
