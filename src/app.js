@@ -1,12 +1,15 @@
 import './bootstrap';
+import 'express-async-errors';
 
 import Youch from 'youch';
 import express from 'express';
 import cors from 'cors';
+import { ValidationError } from 'yup';
 import routes from './routes';
 import uploadConfig from './config/upload';
 
 import database from './database';
+import AppError from './app/errors/AppError';
 
 class App {
   constructor() {
@@ -37,6 +40,16 @@ class App {
 
   handleException() {
     this.server.use(async (err, req, res, next) => {
+      if (err instanceof AppError) {
+        return res.status(err.statusCode).json({ error: err.message });
+      }
+
+      if (err instanceof ValidationError) {
+        return res
+          .status(400)
+          .json({ error: 'Validation fails', messages: err.inner });
+      }
+
       if (process.env.NODE_ENV === 'development') {
         const errors = await new Youch(err, req).toJSON();
         return res.status(500).json(errors);

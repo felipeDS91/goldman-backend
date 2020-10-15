@@ -1,12 +1,12 @@
 import * as Yup from 'yup';
+import AppError from '../errors/AppError';
 import Company from '../models/Company';
 
 class CompanyController {
   async show(req, res) {
     const result = await Company.findOne();
 
-    if (!result)
-      return res.status(404).json({ error: 'Registro não localizado.' });
+    if (!result) throw new AppError('Registro não localizado.', 404);
 
     return res.json(result);
   }
@@ -27,13 +27,7 @@ class CompanyController {
       complement: Yup.string(),
     });
 
-    try {
-      await schema.validate(req.body, { abortEarly: false });
-    } catch (err) {
-      return res
-        .status(400)
-        .json({ error: 'Validation fails', messages: err.inner });
-    }
+    await schema.validate(req.body, { abortEarly: false });
 
     const company = await Company.findOne();
 

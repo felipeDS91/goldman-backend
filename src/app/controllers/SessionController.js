@@ -3,6 +3,7 @@ import { promisify } from 'util';
 import * as Yup from 'yup';
 
 import authConfig from '../../config/auth';
+import AppError from '../errors/AppError';
 import User from '../models/User';
 
 const tokenList = {};
@@ -17,7 +18,7 @@ class SessionController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation fails' });
+      throw new AppError('Validation fails');
     }
 
     const { email, password } = req.body;
@@ -25,11 +26,11 @@ class SessionController {
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
-      return res.status(401).json({ error: 'Usuário ou senha inválido' });
+      throw new AppError('Usuário ou senha inválido', 401);
     }
 
     if (!(await user.checkPassword(password))) {
-      return res.status(401).json({ error: 'Usuário ou senha inválido' });
+      throw new AppError('Usuário ou senha inválido', 401);
     }
 
     const { id, name, provider } = user;
@@ -61,8 +62,7 @@ class SessionController {
   async refresh(req, res) {
     // verifies if have a overdue token
     const authHeader = req.headers.authorization;
-    if (!authHeader)
-      return res.status(401).json({ error: 'Token not provided' });
+    if (!authHeader) throw new AppError('Token not provided', 401);
 
     const [, overdueToken] = authHeader.split(' ');
 
@@ -70,7 +70,7 @@ class SessionController {
       await promisify(jwt.verify)(overdueToken, authConfig.secret);
     } catch (err) {
       if (!(err instanceof TokenExpiredError))
-        return res.status(401).send({ error: 'Invalid access' });
+        throw new AppError('Invalid access', 401);
     }
 
     // generates new token
@@ -94,7 +94,7 @@ class SessionController {
         return res.status(200).json({ token: newToken });
       }
     } catch (e) {
-      return res.status(401).send({ error: 'Invalid access' });
+      throw new AppError('Invalid access', 401);
     }
   }
 }

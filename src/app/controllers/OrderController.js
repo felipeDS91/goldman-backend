@@ -7,6 +7,7 @@ import OrderPayment from '../models/OrderPayment';
 import OrderDetailStone from '../models/OrderDetailStone';
 import Status from '../models/Status';
 import User from '../models/User';
+import AppError from '../errors/AppError';
 
 const RES_PER_PAGE = 10;
 
@@ -316,24 +317,15 @@ class OrderController {
       ],
     });
 
-    if (!result)
-      return res.status(404).json({ error: 'Registro não localizado.' });
+    if (!result) throw new AppError('Registro não localizado.', 404);
 
     return res.json(result);
   }
 
   async store(req, res) {
-    let validatedData;
-
-    try {
-      validatedData = await schema.validate(req.body, {
-        abortEarly: false,
-      });
-    } catch (err) {
-      return res
-        .status(400)
-        .json({ error: 'Validation fails', messages: err.inner });
-    }
+    const validatedData = await schema.validate(req.body, {
+      abortEarly: false,
+    });
 
     const { order_details, order_payments, ...order } = validatedData;
 
@@ -375,15 +367,9 @@ class OrderController {
   }
 
   async update(req, res) {
-    let validatedData;
-
-    try {
-      validatedData = await schema.validate(req.body, { abortEarly: false });
-    } catch (err) {
-      return res
-        .status(400)
-        .json({ error: 'Validation fails', messages: err.inner });
-    }
+    const validatedData = await schema.validate(req.body, {
+      abortEarly: false,
+    });
 
     const { order_details, order_payments, ...order } = validatedData;
 
@@ -454,8 +440,7 @@ class OrderController {
       },
     });
 
-    if (result === 0)
-      return res.status(404).json({ error: 'Registro não localizado.' });
+    if (result === 0) throw new AppError('Registro não localizado.', 404);
 
     return res.status(200).send();
   }

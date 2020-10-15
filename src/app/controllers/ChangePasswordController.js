@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import ValidationError from '../errors/ValidationError';
 import User from '../models/User';
 
 class ChangePasswordController {
@@ -13,23 +14,14 @@ class ChangePasswordController {
       oldPassword: Yup.string().required('Informe a senha antiga.'),
     });
 
-    try {
-      await schema.validate(req.body, { abortEarly: false });
-    } catch (err) {
-      return res
-        .status(400)
-        .json({ error: 'Validation fails', messages: err.inner });
-    }
+    await schema.validate(req.body, { abortEarly: false });
 
     const { oldPassword } = req.body;
 
     const user = await User.findByPk(req.userId);
 
     if (oldPassword && !(await user.checkPassword(oldPassword))) {
-      return res.status(400).json({
-        error: 'Validation fails',
-        messages: [{ message: 'Senha atual inválida.' }],
-      });
+      throw new ValidationError([{ message: 'Senha atual inválida.' }]);
     }
 
     const { id, name, password } = await user.update(req.body);

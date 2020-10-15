@@ -10,6 +10,7 @@ import FreightType from '../models/FreightType';
 import Carrier from '../models/Carrier';
 import Color from '../models/Color';
 import Finishing from '../models/Finishing';
+import AppError from '../errors/AppError';
 
 class PrintOrderController {
   async show(req, res) {
@@ -92,8 +93,7 @@ class PrintOrderController {
       ],
     });
 
-    if (!result)
-      return res.status(404).json({ error: 'Registro não localizado.' });
+    if (!result) throw new AppError('Registro não localizado.', 404);
 
     return res.json(result);
   }

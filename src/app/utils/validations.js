@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { unformat } from './functions';
 
 export function isValidCPF(number) {

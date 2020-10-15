@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import { Op } from 'sequelize';
 import FreightType from '../models/FreightType';
+import AppError from '../errors/AppError';
 
 const RES_PER_PAGE = 10;
 
@@ -35,8 +36,7 @@ class FreightTypeController {
       where: { id: req.params.id },
     });
 
-    if (!result)
-      return res.status(404).json({ error: 'Registro não localizado.' });
+    if (!result) throw new AppError('Registro não localizado.', 404);
 
     return res.json(result);
   }
@@ -46,13 +46,7 @@ class FreightTypeController {
       description: Yup.string().required(),
     });
 
-    try {
-      await schema.validate(req.body, { abortEarly: false });
-    } catch (err) {
-      return res
-        .status(400)
-        .json({ error: 'Validation fails', messages: err.inner });
-    }
+    await schema.validate(req.body, { abortEarly: false });
 
     const result = await FreightType.create(req.body);
 
@@ -64,13 +58,7 @@ class FreightTypeController {
       description: Yup.string().required(),
     });
 
-    try {
-      await schema.validate(req.body, { abortEarly: false });
-    } catch (err) {
-      return res
-        .status(400)
-        .json({ error: 'Validation fails', messages: err.inner });
-    }
+    await schema.validate(req.body, { abortEarly: false });
 
     const result = await FreightType.update(req.body, {
       where: { id: req.params.id },
@@ -86,8 +74,7 @@ class FreightTypeController {
       },
     });
 
-    if (result === 0)
-      return res.status(404).json({ error: 'Registro não localizado.' });
+    if (result === 0) throw new AppError('Registro não localizado.', 404);
 
     return res.status(200).send();
   }

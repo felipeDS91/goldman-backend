@@ -2,11 +2,12 @@ import path from 'path';
 import fs from 'fs';
 import Company from '../models/Company';
 import uploadConfig from '../../config/upload';
+import AppError from '../errors/AppError';
 
 class CompanyLogoController {
   async update(req, res) {
     if (!req.file) {
-      return res.status(400).json({ error: 'Validation fails' });
+      throw new AppError('Validation fails');
     }
 
     const company = await Company.findOne({});

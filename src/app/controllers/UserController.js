@@ -1,6 +1,8 @@
 import * as Yup from 'yup';
 import { Op } from 'sequelize';
 import User from '../models/User';
+import AppError from '../errors/AppError';
+import ValidationError from '../errors/ValidationError';
 
 const RES_PER_PAGE = 10;
 
@@ -35,8 +37,7 @@ class UserController {
       where: { id: req.params.id },
     });
 
-    if (!result)
-      return res.status(404).json({ error: 'Registro não localizado.' });
+    if (!result) throw new AppError('Registro não localizado.', 404);
 
     return res.json(result);
   }
@@ -60,20 +61,12 @@ class UserController {
       profile_admin: Yup.boolean(),
     });
 
-    try {
-      await schema.validate(req.body, { abortEarly: false });
-    } catch (err) {
-      return res
-        .status(400)
-        .json({ error: 'Validation fails', messages: err.inner });
-    }
+    await schema.validate(req.body, { abortEarly: false });
 
     const userExists = await User.findOne({ where: { email: req.body.email } });
 
     if (userExists) {
-      return res
-        .status(400)
-        .json({ error: 'Email cadastrado para esse usuário já existe' });
+      throw new AppError('Email cadastrado para esse usuário já existe');
     }
 
     const { id, name, email } = await User.create(req.body);
@@ -103,13 +96,7 @@ class UserController {
       profile_admin: Yup.boolean(),
     });
 
-    try {
-      await schema.validate(req.body, { abortEarly: false });
-    } catch (err) {
-      return res
-        .status(400)
-        .json({ error: 'Validation fails', messages: err.inner });
-    }
+    await schema.validate(req.body, { abortEarly: false });
 
     const { email } = req.body;
 
@@ -118,14 +105,10 @@ class UserController {
     if (email !== user.email) {
       const userExists = await User.findOne({ where: { email } });
 
-      if (userExists) {
-        return res.status(400).json({
-          error: 'Validation fails',
-          messages: [
-            { message: 'Email cadastrado para esse usuário já existe.' },
-          ],
-        });
-      }
+      if (userExists)
+        throw new ValidationError([
+          { message: 'Email cadastrado para esse usuário já existe.' },
+        ]);
     }
 
     const { id, name } = await user.update(req.body);
@@ -144,8 +127,7 @@ class UserController {
       },
     });
 
-    if (result === 0)
-      return res.status(404).json({ error: 'Registro não localizado.' });
+    if (result === 0) throw new AppError('Registro não localizado.', 404);
 
     return res.status(200).send();
   }
