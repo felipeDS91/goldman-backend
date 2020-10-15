@@ -2,7 +2,7 @@ import { resolve } from 'path';
 import crypto from 'crypto';
 import multer from 'multer';
 
-const tmpFolder = resolve(__dirname, '..', '..', 'tmp', 'uploads');
+const tmpFolder = resolve(__dirname, '..', '..', 'temp', 'uploads');
 
 export default {
   driver: process.env.STORAGE_DRIVER,

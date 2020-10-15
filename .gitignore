@@ -10,6 +10,9 @@ lerna-debug.log*
 tmp/*
 !tmp/.gitkeep
 
+temp/*
+!temp/.gitkeep
+
 # VSCode
 .vscode
 
